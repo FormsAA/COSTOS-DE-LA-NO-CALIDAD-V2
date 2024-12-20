@@ -4,6 +4,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const viaticos = document.getElementById("viaticos");
     const manoObraDetalles = document.getElementById("manoObraDetalles");
     const viaticosDetalles = document.getElementById("viaticosDetalles");
+    const fechaInput = document.getElementById("fecha");
+
+    // Establece la fecha actual en formato DD/MM/YYYY
+    const today = new Date();
+    const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+    fechaInput.value = formattedDate;
 
     function limpiarFormulario() {
         form.reset();
