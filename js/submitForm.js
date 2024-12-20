@@ -10,6 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const today = new Date();
     const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
     fechaInput.value = formattedDate;
+    document.getElementById("fecha").disabled=true;
 
     function limpiarFormulario() {
         form.reset();
