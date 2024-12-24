@@ -7,10 +7,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const fechaInput = document.getElementById("fecha");
 
     // Establece la fecha actual en formato DD/MM/YYYY
+ // Función para obtener la fecha actual en formato DD/MM/YYYY
+ function obtenerFechaActual() {
     const today = new Date();
-    const formattedDate = `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
-    fechaInput.value = formattedDate;
-    document.getElementById("fecha").disabled=true;
+    return `${today.getDate().toString().padStart(2, '0')}/${(today.getMonth() + 1).toString().padStart(2, '0')}/${today.getFullYear()}`;
+}
+
+fechaInput.value = obtenerFechaActual();
+fechaInput.disabled = true; // Desactivar el campo para evitar edición manual
 
     function limpiarFormulario() {
         form.reset();
@@ -32,7 +36,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <label for="${checkbox.value}Personas">Cantidad de personas para ${checkbox.parentElement.textContent.trim()} *</label>
                         <input type="number" id="${checkbox.value}Personas" name="${checkbox.value}Personas" required>
                         <label for="${checkbox.value}Horas">Horas trabajadas por ${checkbox.parentElement.textContent.trim()} *</label>
-                        <input type="number" id="${checkbox.value}Horas" name="${checkbox.value}Horas" required>
+                        <input type="number" id="${checkbox.value}Horas" name="${checkbox.value}Horas" required  step="0.01">
                     </div>
                 `;
             });
@@ -68,12 +72,12 @@ document.addEventListener("DOMContentLoaded", () => {
             fecha: document.getElementById("fecha").value,
             kilometraje: document.getElementById("kilometraje").value,
             montoRepuestos: document.getElementById("montoRepuestos").value,
-            operariosPersonas: document.getElementById("operariosPersonas") ? document.getElementById("operariosPersonas").value : '',
-            operariosHoras: document.getElementById("operariosHoras") ? document.getElementById("operariosHoras").value : '',
-            ayudantesPersonas: document.getElementById("ayudantesPersonas") ? document.getElementById("ayudantesPersonas").value : '',
-            ayudantesHoras: document.getElementById("ayudantesHoras") ? document.getElementById("ayudantesHoras").value : '',
-            jefaturasPersonas: document.getElementById("jefaturasPersonas") ? document.getElementById("jefaturasPersonas").value : '',
-            jefaturasHoras: document.getElementById("jefaturasHoras") ? document.getElementById("jefaturasHoras").value : '',
+            operariosPersonas: document.getElementById("operarioPersonas") ? document.getElementById("operarioPersonas").value : '',
+            operariosHoras: document.getElementById("operarioHoras") ? document.getElementById("operarioHoras").value : '',
+            ayudantesPersonas: document.getElementById("ayudantePersonas") ? document.getElementById("ayudantePersonas").value : '',
+            ayudantesHoras: document.getElementById("ayudanteHoras") ? document.getElementById("ayudanteHoras").value : '',
+            jefaturasPersonas: document.getElementById("jefaturaPersonas") ? document.getElementById("jefaturaPersonas").value : '',
+            jefaturasHoras: document.getElementById("jefaturaHoras") ? document.getElementById("jefaturaHoras").value : '',
             viaticos: viaticos.value,
             cantidadHospedados: document.getElementById("cantidadHospedados") ? document.getElementById("cantidadHospedados").value : '',
             diasHospedaje: document.getElementById("diasHospedaje") ? document.getElementById("diasHospedaje").value : '',
@@ -85,8 +89,8 @@ document.addEventListener("DOMContentLoaded", () => {
             supervisiones: document.getElementById("supervisiones").value,
             asesorias: document.getElementById("asesorias").value
         };
-
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxEaUd_qABuyW4J4rn_re8nwD20K025my22aCtK29917ef21FZYySq85e3jE_DWZNAX/exec';
+        
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbwmHuDIf_Quc_44dR4GQWDO9WaI9jM2Hu2jYAZJfHos7AOAvA7QFFdqoXvpCqbMgPYh/exec';
 
         // Enviar los datos al Apps Script
         fetch(scriptURL, {
@@ -95,12 +99,29 @@ document.addEventListener("DOMContentLoaded", () => {
         })
         .then(response => response.text())
         .then(response => {
-            document.getElementById('response-message').innerText = "Registro guardado exitosamente.";
+            const responseMessage = document.getElementById('response-message');
+            responseMessage.innerText = "Registro guardado exitosamente.";
+            responseMessage.style.display = "block"; // Asegúrate de que el mensaje sea visible
+        
+            // Oculta el mensaje después de 3 segundos
+            setTimeout(() => {
+                responseMessage.style.display = "none";
+            }, 3000);
             limpiarFormulario();
+            fechaInput.value = obtenerFechaActual(); // Refresca la fecha
+            fechaInput.disabled = true; // Desactiva el campo nuevamente
         })
         .catch(error => {
-            document.getElementById('response-message').innerText = "Error en el registro. Intenta de nuevo.";
+            const responseMessage = document.getElementById('response-message');
+            responseMessage.innerText = "Error en el registro. Intenta de nuevo.";
+            responseMessage.style.display = "block"; // Asegúrate de que el mensaje de error sea visible
             console.error('Error!', error);
+        
+            // Oculta el mensaje de error después de 3 segundos
+            setTimeout(() => {
+                responseMessage.style.display = "none";
+            }, 3000);
         });
+        
     });
 });
