@@ -64,8 +64,22 @@ form label {
     margin-bottom: 5px;
 }
 
-form input,
-form select,
+form input{
+    width: 97%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form select{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
 form button {
     width: 100%;
     padding: 10px;
@@ -188,4 +202,13 @@ footer .logo:hover {
     header .logo {
         max-width: 80px; /* Tamaño más pequeño en pantallas pequeñas */
     }
+}
+#response-message {
+    display: none; /* Oculto por defecto */
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 4px;
+    font-weight: bold;
+    text-align: center;
+    transition: opacity 0.5s ease-out; /* Suaviza la desaparición */
 }
